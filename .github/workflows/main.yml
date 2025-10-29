@@ -13,8 +13,8 @@ jobs :
     with :
       java - version : '11'
   -name : Run COBOL Check
-    env :
+    env:
       ZOWE_USERNAME : $ {{ secrets . ZOWE_USERNAME }}
       ZOWE_PASSWORD : $ {{ secrets . ZOWE_PASSWORD }}  
-    run : |
+    run: |
         echo " Running COBOL Check "
