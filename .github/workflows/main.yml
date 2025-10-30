@@ -76,7 +76,7 @@ jobs:
           echo "📤 Uploading COBOL Check files to Mainframe USS..."
           chmod +x .github/scripts/zowe_operations.sh
           .github/scripts/zowe_operations.sh
-          echo "✅ Upload complete."
+          echo "✅ Upload complete." 
 
       # 8️⃣ Run COBOL Check on Mainframe
       - name: Run COBOL Check on Mainframe
