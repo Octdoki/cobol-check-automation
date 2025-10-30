@@ -1,22 +1,22 @@
-# !/ bin / bash
+#!/bin/bash
 
 # mainframe_operations.sh
 
 # Set up environment
-export PATH = $PATH :/ usr / lpp / java / J8 .0 _64 / bin
-export JAVA_HOME =/ usr / lpp / java / J8 .0 _64
-export PATH = $PATH :/ usr / lpp / zowe / cli / node / bin
+export PATH=$PATH:/usr/lpp/java/J8.0_64/bin
+export JAVA_HOME=/usr/lpp/java/J8.0_64
+export PATH=$PATH:/usr/lpp/zowe/cli/node/bin
 
 # Check Java availability
-java - version
+java -version
 
 # Set ZOWE_USERNAME
-ZOWE_USERNAME = " Z99998 " # Replace with the actual username
+ZOWE_USERNAME = "Z83398" 
 
 # Change to the cobolcheck directory
 cd cobolcheck
-echo " Changed to $ ( pwd ) "
-ls - al
+echo "Changed to $(pwd) "
+ls -al
 
 # Make cobolcheck executable
 chmod + x cobolcheck
@@ -30,8 +30,8 @@ cd ..
 
 # Function to run cobolcheck and copy files
 run_cobolcheck () {
-  program = $1
-  echo " Running cobolcheck for $program "
+  program=$1
+  echo "Running cobolcheck for $program "
   
   #Run cobolcheck , but don 't exit if it fails
   ./cobolcheck -p $program
@@ -39,27 +39,27 @@ run_cobolcheck () {
       occurred)"
       
   #Check if CC ##99. CBL was created , regardless of cobolcheck exit status
-  if [ -f " CC ##99. CBL " ]; then
+  if [ -f "CC##99.CBL " ]; then
     # Copy to the MVS dataset
-    if cp CC# #99. CBL "// '$ { ZOWE_USERNAME }. CBL ( $program ) '"; then
-      echo " Copied CC ##99. CBL to $ { ZOWE_USERNAME }. CBL ( $program ) "
+    if cp CC##99.CBL "// '$ {ZOWE_USERNAME}.CBL ($program)'"; then
+      echo "Copied CC##99.CBL to $ {ZOWE_USERNAME}.CBL ($program) "
     else
-      echo " Failed to copy CC ##99. CBL to $ { ZOWE_USERNAME }. CBL ( $program ) "
+      echo " Failed to copy CC##99.CBL to $ {ZOWE_USERNAME}.CBL ($program) "
     fi
   else
-    echo " CC ##99. CBL not found for $program "
+    echo " CC##99.CBL not found for $program "
   fi
 
   # Copy the JCL file if it exists
-  if [ -f " $ { program }. JCL " ]; then
-    if cp $ { program }. JCL " //'$ { ZOWE_USERNAME }. JCL ( $program )'" ; then
-      echo " Copied $ { program }. JCL to $ { ZOWE_USERNAME }. JCL ( $program ) "
+  if [ -f "${program}.JCL " ]; then
+    if cp $ {program}.JCL " //'$ {ZOWE_USERNAME}.JCL ($program)'" ; then
+      echo "Copied ${program}.JCL to $ {ZOWE_USERNAME}.JCL ($program) "
     else
-      echo " Failed to copy $ { program }. JCL to
-        $ { ZOWE_USERNAME }. JCL ( $program ) "
+      echo " Failed to copy ${program}.JCL to
+        ${ZOWE_USERNAME}.JCL ($program) "
     fi
   else
-    echo " $ { program }. JCL not found "
+    echo "${program}.JCL not found "
   fi
 }
   
