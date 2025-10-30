@@ -14,12 +14,6 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-         # distribution: 'temurin'
-
-      - name: Set up Node.js
-        # uses: actions/setup-node@v3
-        with:
-          node-version: '11'
       - name: Run COBOL Check
         env:
           ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
