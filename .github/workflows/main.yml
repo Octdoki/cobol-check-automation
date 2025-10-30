@@ -7,20 +7,23 @@ on:
 jobs:
   cobol-check:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    # 1. 소스 코드 체크아웃
+    - uses: actions/checkout@v2
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-
-      - name: Run COBOL Check
-        env:
-          ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-          ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-        run: |
-          echo "Running COBOL Check"
-          # Example: here you could add your COBOL compile or Zowe command
+    # 2. Java 11 설정 (오류 수정: distribution 추가)
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'temurin' 
+        
+    # 3. COBOL Check 실행 환경 설정 및 실행
+    - name: Run COBOL Check
+      env:
+        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+      run: |
+        echo "Running COBOL Check..."
+        # 여기에 실제 COBOL Check 명령어 (예: ./cobol-check.sh --run-tests)를 추가합니다.
