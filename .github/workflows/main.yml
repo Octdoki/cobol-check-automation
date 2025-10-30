@@ -32,11 +32,14 @@ jobs:
       # 5. Configure Zowe profile (so commands can connect)
       - name: Configure Zowe CLI profile
         run: |
-          zowe config init --host ${{ secrets.ZOS_HOST }} \
-            --port ${{ secrets.ZOS_PORT }} \
-            --user ${{ secrets.ZOWE_USERNAME }} \
-            --password ${{ secrets.ZOWE_PASSWORD }} \
-            --reject-unauthorized false
+          zowe config init
+          zowe config set profiles.zosmf.type zosmf
+          zowe config set profiles.zosmf.properties.host ${{ secrets.ZOS_HOST }}
+          zowe config set profiles.zosmf.properties.port ${{ secrets.ZOS_PORT }}
+          zowe config set profiles.zosmf.properties.user ${{ secrets.ZOWE_USERNAME }}
+          zowe config set profiles.zosmf.properties.password ${{ secrets.ZOWE_PASSWORD }}
+          zowe config set profiles.zosmf.properties.rejectUnauthorized false
+
 
       # 6. Run your COBOL Check script
       - name: Run COBOL Check Script
