@@ -20,10 +20,10 @@ jobs:
         distribution: 'temurin' 
         
     # 3. COBOL Check 실행 환경 설정 및 실행
-    - name: Run COBOL Check
+    - name: Setup MAinFrame Enviornment and Upload COBOL Check
       env:
         ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
         ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
       run: |
-        echo "Running COBOL Check..."
-        # 여기에 실제 COBOL Check 명령어 (예: ./cobol-check.sh --run-tests)를 추가합니다.
+        chmod + x . github / scripts / zowe_operations.sh
+        .github / scripts / zowe_operations . sh
