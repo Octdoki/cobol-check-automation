@@ -21,17 +21,17 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      # 3️⃣ Setup Node.js with npm cache
+      # 3️⃣ Setup Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 4️⃣ Install Zowe CLI quickly
+      # 4️⃣ Install Zowe CLI
       - name: Install Zowe CLI
         run: npm install -g @zowe/cli --prefer-offline
 
-      # 5️⃣ Configure Zowe profile (no waiting for input)
+      # 5️⃣ Configure Zowe CLI profile (with safe defaults)
       - name: Configure Zowe CLI profile
         run: |
           zowe config init
@@ -42,27 +42,28 @@ jobs:
           zowe config set profiles.zosmf.properties.password "${{ secrets.ZOWE_PASSWORD || 'dummy-pass' }}"
           zowe config set profiles.zosmf.properties.rejectUnauthorized false
 
-      # 6️⃣ (Optional) Test Zowe CLI installation
+      # 6️⃣ Check Zowe CLI version (optional sanity check)
       - name: Check Zowe CLI version
         run: zowe --version
 
-      # 7️⃣ Run COBOL Check script (mocked for now)
-      - name: Run COBOL Check
+      # 7️⃣ Upload COBOL Check files to Mainframe (USS upload)
+      - name: Setup MainFrame Environment and Upload COBOL Check
+        env:
+          ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+          ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
         run: |
-          echo "Running COBOL Check..."
+          echo "📤 Uploading COBOL Check files to Mainframe..."
           chmod +x .github/scripts/zowe_operations.sh
-          # ⚠️ This step is mocked to skip real z/OS connection
-          if [ -f ".github/scripts/zowe_operations.sh" ]; then
-            echo "Script found — skipping real upload (mock test mode)"
-          else
-            echo "Script missing, check your repo structure"
-          fi
-          echo "✅ COBOL Check workflow finished successfully!"
+          .github/scripts/zowe_operations.sh
+          echo "✅ Upload complete."
 
-          - name: Run COBOL Check on Mainframe
-            env:
-              ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-              ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-            run: |
-              chmod +x .github/scripts/mainframe_operations.sh
-              .github/scripts/mainframe_operations.sh
+      # 8️⃣ Run COBOL Check on Mainframe
+      - name: Run COBOL Check on Mainframe
+        env:
+          ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+          ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+        run: |
+          echo "🧩 Running COBOL Check on z/OS..."
+          chmod +x .github/scripts/mainframe_operations.sh
+          .github/scripts/mainframe_operations.sh
+          echo "✅ COBOL Check execution finished."
