@@ -22,8 +22,8 @@ jobs:
     # 3. COBOL Check 실행 환경 설정 및 실행
     - name: Setup MainFrame Enviornment and Upload COBOL Check
       env:
-        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+        ZOWE_USERNAME: ${{secrets.ZOWE_USERNAME}}
+        ZOWE_PASSWORD: ${{secrets.ZOWE_PASSWORD}}
       run: |
         chmod +x .github/scripts/zowe_operations.sh
         .github/scripts/zowe_operations.sh
