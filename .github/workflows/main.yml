@@ -31,7 +31,7 @@ jobs:
       - name: Install Zowe CLI
         run: npm install -g @zowe/cli --prefer-offline
 
-      # 5️⃣ Configure Zowe CLI profile (using GitHub Secrets)
+      # 5️⃣ Configure Zowe CLI profile (fast direct JSON method 🚀)
       - name: Configure Zowe CLI profile
         env:
           ZOS_HOST: ${{ secrets.ZOS_HOST }}
@@ -39,20 +39,32 @@ jobs:
           ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
           ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
         run: |
-          echo "🔧 Configuring Zowe CLI profile..."
-          zowe config init
-          zowe config set profiles.zosmf.type zosmf
-          zowe config set profiles.zosmf.properties.host "$ZOS_HOST"
-          zowe config set profiles.zosmf.properties.port "$ZOS_PORT"
-          zowe config set profiles.zosmf.properties.user "$ZOWE_USERNAME"
-          zowe config set profiles.zosmf.properties.password "$ZOWE_PASSWORD"
-          zowe config set profiles.zosmf.properties.rejectUnauthorized false
-          echo "✅ Zowe CLI profile configured successfully."
+          echo "🔧 Creating Zowe CLI configuration file..."
+          cat <<EOF > zowe.config.json
+          {
+            "profiles": {
+              "zosmf": {
+                "type": "zosmf",
+                "properties": {
+                  "host": "$ZOS_HOST",
+                  "port": "$ZOS_PORT",
+                  "user": "$ZOWE_USERNAME",
+                  "password": "$ZOWE_PASSWORD",
+                  "rejectUnauthorized": false
+                }
+              }
+            },
+            "defaults": {
+              "zosmf": "zosmf"
+            }
+          }
+          EOF
+          echo "✅ Zowe CLI config file created instantly."
 
       # 6️⃣ Verify Zowe CLI installation
       - name: Check Zowe CLI version
         run: |
-          echo "📦 Zowe CLI version:"
+          echo "📦 Checking Zowe CLI version..."
           zowe --version
 
       # 7️⃣ Upload COBOL Check files to Mainframe USS
