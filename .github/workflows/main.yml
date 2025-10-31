@@ -42,10 +42,10 @@ jobs:
           echo "🔧 Creating Zowe CLI configuration file..."
 
           # Set default values if secrets are not provided
-          HOST_VALUE=${ZOS_HOST:-dummy-host}
-          PORT_VALUE=${ZOS_PORT:-443}
-          USER_VALUE=${ZOWE_USERNAME:-dummy-user}
-          PASS_VALUE=${ZOWE_PASSWORD:-dummy-pass}
+          # HOST_VALUE=${ZOS_HOST:-dummy-host}
+          # PORT_VALUE=${ZOS_PORT:-443}
+          # USER_VALUE=${ZOWE_USERNAME:-dummy-user}
+          # PASS_VALUE=${ZOWE_PASSWORD:-dummy-pass}
 
           cat <<EOF > zowe.config.json
           {
