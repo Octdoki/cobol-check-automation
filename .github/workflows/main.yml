@@ -40,23 +40,16 @@ jobs:
           ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
         run: |
           echo "🔧 Creating Zowe CLI configuration file..."
-
-          # Set default values if secrets are not provided
-          # HOST_VALUE=${ZOS_HOST:-dummy-host}
-          # PORT_VALUE=${ZOS_PORT:-443}
-          # USER_VALUE=${ZOWE_USERNAME:-dummy-user}
-          # PASS_VALUE=${ZOWE_PASSWORD:-dummy-pass}
-
           cat <<EOF > zowe.config.json
           {
             "profiles": {
               "zosmf": {
                 "type": "zosmf",
                 "properties": {
-                  "host": "$HOST_VALUE",
-                  "port": "$PORT_VALUE",
-                  "user": "$USER_VALUE",
-                  "password": "$PASS_VALUE",
+                  "host": "$ZOS_HOST",
+                  "port": "$ZOS_PORT",
+                  "user": "$ZOWE_USERNAME",
+                  "password": "$ZOWE_PASSWORD",
                   "rejectUnauthorized": false
                 }
               }
@@ -66,6 +59,8 @@ jobs:
             }
           }
           EOF
+          echo "✅ Zowe CLI config created successfully."
+
 
           echo "✅ Zowe CLI config created."
           echo "🔹 Host: $HOST_VALUE"
