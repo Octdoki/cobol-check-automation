@@ -17,7 +17,7 @@ fi
 
 # ✅ 업로드 실행 (공백/줄바꿈 없이 한 줄로)
 echo "📤 Uploading COBOL Check files to $USS_PATH ..."
-zowe zos-files upload dir-to-uss "./cobol-check" "$USS_PATH" --recursive --binary-files
+zowe zos-files upload dir-to-uss "./cobol-check" "$USS_PATH" --recursive --binary-files "all"
 
 # ✅ 업로드 검증
 echo "📋 Verifying upload..."
